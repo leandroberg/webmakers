@@ -1,0 +1,21 @@
+/* Large devices (desktops, less than 1200px) */
+@media (max-width: 1199px){}
+
+/* Medium devices (tablets, less than 992px) */
+@media (max-width: 991px){
+    #slideshow h2{letter-spacing:10px;}
+    h2{font-size:32px !important;line-height:32px !important;}
+    .featured-image{height:150px;}
+}
+
+/* Small devices (landscape phones, less than 768px) */
+@media (max-width: 767px){
+    .max-width-320{max-width:320px;}
+    article p{padding-bottom:15px;}
+    div.popup .wrapper{border-radius:0;min-height:100vh;padding:80px 15px;text-align:center;background-image:none;}
+    #services p{padding-bottom:50px;}
+    #clients li img{margin:20px 15px;}
+}
+
+/* Extra small devices (portrait phones, less than 576px) */
+@media (max-width: 575px){}
