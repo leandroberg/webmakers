@@ -54,7 +54,7 @@ jQuery(document).ready(function(){
     
     /* FORM */
     function ajaxform(){
-        $form = jQuery(".ajaxform"); //just set 'ajaxform' class in your form's tag and have fun
+        $form = jQuery(".ajaxform"); //just set "ajaxform" class in your form's tag and have fun
         $form.validate();
         $form.submit(function(){
             if($form.valid()){
