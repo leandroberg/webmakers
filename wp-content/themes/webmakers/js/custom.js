@@ -54,6 +54,7 @@ jQuery(document).ready(function(){
     
     /* FORM */
     function ajaxform(){
+        var templateDirectory;
         $form = jQuery(".ajaxform"); //just set "ajaxform" class in your form's tag and have fun
         $form.validate();
         $form.submit(function(){
@@ -66,7 +67,7 @@ jQuery(document).ready(function(){
                     contentType: false,
                     beforeSend: ajaxStatus("loading"),
                     success: function(msg){
-                        if(msg==1){
+                        if(msg===1){
                             ajaxStatus("sent");
                         }else{
                             ajaxStatus("error");
