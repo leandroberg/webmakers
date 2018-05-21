@@ -1,7 +1,7 @@
 jQuery(document).ready(function(){
     
     /* SLIDESHOW */
-    jQuery('#slideshow .slick').slick({
+    jQuery("#slideshow .slick").slick({
         autoplay:true,
         autoplaySpeed:5000,
         arrows:false,
@@ -16,7 +16,7 @@ jQuery(document).ready(function(){
             jQuery(this).attr("placeholder", "");
         });
         jQuery("input,textarea").blur(function(){
-            if(text!=''){
+            if(text!==""){
                 jQuery(this).attr("placeholder", text);
                 text = "";
             }
@@ -25,54 +25,54 @@ jQuery(document).ready(function(){
     
     /* AJAX STATUS */
     function ajaxStatus(status, message){
-        jQuery('div.popup').fadeOut();
-        jQuery('.ajax-status .fa').removeClass('fa-close fa-check fa-repeat rotating');
-        jQuery('.ajax-status p').html('');
+        jQuery("div.popup").fadeOut();
+        jQuery(".ajax-status .fa").removeClass("fa-close fa-check fa-repeat rotating");
+        jQuery(".ajax-status p").html("");
         switch(status){
-            case 'loading':
-                jQuery('.ajax-status .fa').addClass('fa-repeat rotating');
-                jQuery('.ajax-status p').html(message);
-                jQuery('.ajax-status').fadeIn();
+            case "loading":
+                jQuery(".ajax-status .fa").addClass("fa-repeat rotating");
+                jQuery(".ajax-status p").html(message);
+                jQuery(".ajax-status").fadeIn();
             break;
-            case 'sent':
-                jQuery('.ajax-status .fa').addClass('fa-check');
-                jQuery('.ajax-status p').html(message);
-                jQuery('.ajax-status').fadeIn();
+            case "sent":
+                jQuery(".ajax-status .fa").addClass("fa-check");
+                jQuery(".ajax-status p").html(message);
+                jQuery(".ajax-status").fadeIn();
             break;
-            case 'finish':
-                jQuery('.ajax-status').fadeOut();
+            case "finish":
+                jQuery(".ajax-status").fadeOut();
             break;
-            case 'error':
-                jQuery('.ajax-status .fa').addClass('fa-close');
-                jQuery('.ajax-status p').html(message);
+            case "error":
+                jQuery(".ajax-status .fa").addClass("fa-close");
+                jQuery(".ajax-status p").html(message);
             break;
         }
-        jQuery('.ajax-status').bind('click',function(){
+        jQuery(".ajax-status").bind("click",function(){
             jQuery(this).fadeOut();
         });
     }
     
     /* FORM */
     function ajaxform(){
-        $form = jQuery('.ajaxform'); //just set 'ajaxform' class in your form's tag and have fun
+        $form = jQuery(".ajaxform"); //just set 'ajaxform' class in your form's tag and have fun
         $form.validate();
         $form.submit(function(){
             if($form.valid()){
                 jQuery.ajax({
-                    type: 'POST',
-                    url: templateDirectory + '/includes/submit.php',
+                    type: "POST",
+                    url: templateDirectory + "/includes/submit.php",
                     data: new FormData($form[0]),
                     processData: false,
                     contentType: false,
-                    beforeSend: ajaxStatus('loading'),
+                    beforeSend: ajaxStatus("loading"),
                     success: function(msg){
                         if(msg==1){
-                            ajaxStatus('sent');
+                            ajaxStatus("sent");
                         }else{
-                            ajaxStatus('error');
+                            ajaxStatus("error");
                         }
                         setTimeout(function(){
-                            ajaxStatus('finish');
+                            ajaxStatus("finish");
                             $form[0].reset();
                         },7000);
                     }
@@ -83,7 +83,7 @@ jQuery(document).ready(function(){
     }ajaxform();
     
     /* CLIENTS - slick */
-    jQuery('#clients .slick').slick({
+    jQuery("#clients .slick").slick({
         infinite:false,
         autoplay:false,
         arrows:false,
@@ -92,11 +92,11 @@ jQuery(document).ready(function(){
     });
     
     /* CLIENTS - navigation */
-    jQuery('#clients nav a').bind('click',function(){
-        jQuery('#clients nav a').removeClass('active');
-        jQuery(this).addClass('active');
-        var slide = jQuery(this).attr('data-slick');
-        jQuery('#clients .slick').slick('slickGoTo',slide);
+    jQuery("#clients nav a").bind("click",function(){
+        jQuery("#clients nav a").removeClass("active");
+        jQuery(this).addClass("active");
+        var slide = jQuery(this).attr("data-slick");
+        jQuery("#clients .slick").slick("slickGoTo",slide);
     });
     
 });
