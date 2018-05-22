@@ -181,14 +181,15 @@ function the_excerpt_max_charlength($curlarlength) {
         $exwords = explode( ' ', $subex );
         $excut = - ( mb_strlen( $exwords[ count( $exwords ) - 1 ] ) );
         if ( $excut < 0 ) {
-            echo esc_html(mb_substr( $subex, 0, $excut ));
+            $html = esc_html(mb_substr( $subex, 0, $excut ));
         } else {
-            echo esc_html($subex);
+            $html = esc_html($subex);
         }
-        echo esc_html('...');
+        $html = esc_html('...');
     } else {
-        echo esc_html($excerpt);
+        $html = esc_html($excerpt);
     }
+    return $html;
 }
 
 /*************************************************************************
