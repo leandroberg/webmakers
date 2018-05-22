@@ -25,7 +25,7 @@ function metatags(){
     $metatags .= '<meta property="og:type" content="'.metatype().'" />'."\n";
     $metatags .= '<meta property="fb:app_id" content="393826120693218" />'."\n";
     
-    return $metatags;
+    echo $metatags; // WPCS: XSS OK
     
 }
 
