@@ -238,8 +238,9 @@ function video_player($url,$width,$height){
 function category_name($post,$taxonomy,$term_id=false){
     $terms = get_the_terms($post,$taxonomy);
     if($term_id){
-        echo esc_attr('cat-item-'.$terms[0]->term_id);
+        $html = esc_attr('cat-item-'.$terms[0]->term_id);
     }else{
-        echo esc_attr($terms[0]->name);
+        $html = esc_attr($terms[0]->name);
     }
+    return $html;
 }
