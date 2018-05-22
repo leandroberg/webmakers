@@ -3,16 +3,6 @@
 # METATAGS
 function metatags(){
     
-    global $post;
-	
-    // SET THUMBNAIL URL
-    if(is_single()):
-        $thumbnail = wp_get_attachment_image_src( get_post_thumbnail_id($post->ID), 'large' );
-        $thumbnail = $thumbnail[0];
-    else:
-        $thumbnail = get_template_directory_uri().'/screenshot.png';
-    endif;
-    
     $metatags = '<meta charset="'.get_bloginfo( 'charset' ).'">'."\n";
     $metatags .= '<title>'.get_bloginfo('name').'</title>'."\n";
     $metatags .= '<meta name="description" content="'.get_bloginfo('description').'">'."\n";
@@ -21,22 +11,75 @@ function metatags(){
     $metatags .= '<!-- TWITTER //-->'."\n";
     $metatags .= '<meta name="twitter:card" content="summary_large_image">'."\n";
     $metatags .= '<meta name="twitter:site" content="">'."\n";
-    $metatags .= '<meta name="twitter:title" content="'.(is_single()||is_page() ? get_the_title() : get_bloginfo('name')).'">'."\n";
-    $metatags .= '<meta name="twitter:description" content="'.(is_single()||is_page() ? $post->post_excerpt : get_bloginfo('description')).'">'."\n";
-    $metatags .= '<meta name="twitter:image" content="'.$thumbnail.'"/>'."\n";
+    $metatags .= '<meta name="twitter:title" content="'.metatitle().'">'."\n";
+    $metatags .= '<meta name="twitter:description" content="'.metadescription().'">'."\n";
+    $metatags .= '<meta name="twitter:image" content="'.metathumb().'"/>'."\n";
     $metatags .= '<!-- OPEN GRAPH //-->'."\n";
     $metatags .= '<meta property="og:site_name" content="'.get_bloginfo('name').'"/>'."\n";
-    $metatags .= '<meta property="og:title" content="'.(is_single()||is_page() ? get_the_title() : get_bloginfo('name')).'"/>'."\n";
-    $metatags .= '<meta property="og:description" content="'.(is_single()||is_page() ? $post->post_excerpt : get_bloginfo('description')).'">'."\n";
-    $metatags .= '<meta property="og:image" content="'.$thumbnail.'"/>'."\n";
+    $metatags .= '<meta property="og:title" content="'.metatitle().'"/>'."\n";
+    $metatags .= '<meta property="og:description" content="'.metadescription().'">'."\n";
+    $metatags .= '<meta property="og:image" content="'. metathumb().'"/>'."\n";
     $metatags .= '<meta property="og:image:width" content="600" />'."\n";
     $metatags .= '<meta property="og:image:height" content="315" />'."\n";
-    $metatags .= '<meta property="og:url" content="'.(is_single()||is_page() ? get_the_permalink() : get_bloginfo('home')).'">'."\n";
-    $metatags .= '<meta property="og:type" content="'.(is_single()||is_page() ? 'article' : 'website').'" />'."\n";
+    $metatags .= '<meta property="og:url" content="'.metaurl().'">'."\n";
+    $metatags .= '<meta property="og:type" content="'.metatype().'" />'."\n";
     $metatags .= '<meta property="fb:app_id" content="393826120693218" />'."\n";
     
-    echo $metatags;
+    echo esc_html($metatags);
     
+}
+
+# META TITLE
+function metatitle(){
+    if(is_single()||is_page()){
+        $title =  get_the_title();
+    }else{
+        $title = get_bloginfo('name');
+    }
+    return $title;
+}
+
+#META DESCRIPTION
+function metadescription(){
+    global $post;
+    if(is_single()||is_page()){
+        $description = $post->post_excerpt;
+    }else{
+        $description = get_bloginfo('description');
+    }
+    return $description;
+}
+
+# THUMBNAIL
+function metathumb(){
+    global $post;
+    if(is_single()){
+        $thumbnail = wp_get_attachment_image_src( get_post_thumbnail_id($post->ID), 'large' );
+        $thumbnail = $thumbnail[0];
+    }else{
+        $thumbnail = get_template_directory_uri().'/screenshot.png';
+    }
+    return $thumbnail;
+}
+
+# META URL
+function metaurl(){
+    if(is_single()||is_page()){
+        $url = get_the_permalink();
+    }else{
+        $url = get_bloginfo('home');
+    }
+    return $url;
+}
+
+# META TYPE
+function metatype(){
+    if(is_single()||is_page()){
+        $type = 'article';
+    }else{
+        $type = 'website';
+    }
+    return $type;
 }
 
 # THEME VERSION
@@ -110,13 +153,13 @@ function search_filter($query) {
 
 # TINY URL
 function tinyurl($url)  {  
-    $ch = curl_init();  
+    $curl = curl_init();  
     $timeout = 5;  
-    curl_setopt($ch,CURLOPT_URL,'http://tinyurl.com/api-create.php?url='.$url);  
-    curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);  
-    curl_setopt($ch,CURLOPT_CONNECTTIMEOUT,$timeout);  
-    $data = curl_exec($ch);  
-    curl_close($ch);  
+    curl_setopt($curl,CURLOPT_URL,'http://tinyurl.com/api-create.php?url='.$url);  
+    curl_setopt($curl,CURLOPT_RETURNTRANSFER,1);  
+    curl_setopt($curl,CURLOPT_CONNECTTIMEOUT,$timeout);  
+    $data = curl_exec($curl);  
+    curl_close($curl);  
     return $data;  
 }
 
@@ -126,25 +169,25 @@ function twitter_text($text){
     $twitter = str_replace('&#039;','%27',$twitter);
     $twitter = str_replace('#','%23',$twitter);
     $twitter = str_replace('@','%40',$twitter);
-    echo $twitter;
+    echo esc_html($twitter);
 }
 
 # EXCERPT WITH MAX LENGTH
-function the_excerpt_max_charlength($charlength) {
+function the_excerpt_max_charlength($curlarlength) {
     $excerpt = get_the_excerpt();
-    $charlength++;
-    if ( mb_strlen( $excerpt ) > $charlength ) {
-        $subex = mb_substr( $excerpt, 0, $charlength - 5 );
+    $curlarlength++;
+    if ( mb_strlen( $excerpt ) > $curlarlength ) {
+        $subex = mb_substr( $excerpt, 0, $curlarlength - 5 );
         $exwords = explode( ' ', $subex );
         $excut = - ( mb_strlen( $exwords[ count( $exwords ) - 1 ] ) );
         if ( $excut < 0 ) {
-            echo mb_substr( $subex, 0, $excut );
+            echo esc_html(mb_substr( $subex, 0, $excut ));
         } else {
-            echo $subex;
+            echo esc_html($subex);
         }
-        echo '...';
+        echo esc_html('...');
     } else {
-        echo $excerpt;
+        echo esc_html($excerpt);
     }
 }
 
@@ -154,7 +197,7 @@ function the_excerpt_max_charlength($charlength) {
 function the_youtube_embed($url,$width,$height) {
   $url = parse_url($url, PHP_URL_QUERY);
   parse_str($url, $params);
-  echo '<iframe width="'.$width.'" height="'.$height.'" src="http://www.youtube.com/embed/'.$params['v'].'" frameborder="0" allowfullscreen></iframe>';
+  echo esc_html('<iframe width="'.$width.'" height="'.$height.'" src="http://www.youtube.com/embed/'.$params['v'].'" frameborder="0" allowfullscreen></iframe>');
 }
 
 /*************************************************************************
@@ -163,7 +206,7 @@ function the_youtube_embed($url,$width,$height) {
 function the_vimeo_embed($url,$width,$height) {
   $url = str_replace('https://','https://player.',$url);
   $url = str_replace('.com/','.com/video/',$url);
-  echo '<iframe src="'.$url.'?title=0&byline=0&portrait=0" width="'.$width.'" height="'.$height.'" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>';
+  echo esc_html('<iframe src="'.$url.'?title=0&byline=0&portrait=0" width="'.$width.'" height="'.$height.'" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>');
 }
 
 /*************************************************************************
@@ -173,7 +216,7 @@ function the_video_embed($url,$width,$height) {
     $html = '<video width="'.$width.'" height="'.$height.'" controls>';
     $html .= '<source src="'.$url.'" type="video/mp4">';
     $html .= '</video>';
-    echo $html;
+    echo esc_html($html);
 }
 
 // VIDEO PLAYER
@@ -191,8 +234,8 @@ function video_player($url,$width,$height){
 function category_name($post,$taxonomy,$term_id=false){
     $terms = get_the_terms($post,$taxonomy);
     if($term_id){
-        echo 'cat-item-'.$terms[0]->term_id;
+        echo esc_attr('cat-item-'.$terms[0]->term_id);
     }else{
-        echo $terms[0]->name;
+        echo esc_attr($terms[0]->name);
     }
 }
