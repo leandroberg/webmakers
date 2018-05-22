@@ -4,7 +4,7 @@
 /* Medium devices (tablets, less than 992px) */
 @media (max-width: 991px){
     #slideshow h2{letter-spacing:10px;}
-    h2{font-size:32px !important;line-height:32px !important;}
+    h2{font-size:32px;line-height:32px;}
     .featured-image{height:150px;}
 }
 
