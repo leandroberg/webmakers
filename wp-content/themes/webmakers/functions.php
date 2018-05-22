@@ -60,18 +60,27 @@ function load_scripts(){
     wp_enqueue_style( 'bootstrap', 'https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css', array(), THEME_VERSION );
     wp_enqueue_style( 'fonts', 'https://fonts.googleapis.com/css?family=Quicksand:300,500|Changa+One', array(), THEME_VERSION );
     wp_enqueue_style( 'slick', get_template_directory_uri() . '/vendor/slick/slick.css', array(), THEME_VERSION );
-    
-    # TEMPLATE DIRECTORY JAVASCRIPT VAR
-    echo '<script>var homeDirectory = "'.get_bloginfo('home').'";';
-    echo 'var templateDirectory = "'.get_bloginfo('template_directory').'";';
-    echo 'var siteName = "'.get_bloginfo('name').'";</script>';
+    wp_enqueue_style( 'ajaxstatus', get_template_directory_uri() . '/vendor/virtuemasters/ajaxstatus/ajaxstatus.css', array(), THEME_VERSION );
 	
     # JS
     wp_enqueue_script( 'custom', get_template_directory_uri() . '/js/custom.js', array('jquery', 'validate'), THEME_VERSION, true );
     wp_enqueue_script( 'validate', get_template_directory_uri() . '/vendor/jquery.validate.min.js', array('jquery'), THEME_VERSION, true );
     wp_enqueue_script( 'scroll', get_template_directory_uri() . '/vendor/scroll.js', array('jquery'), THEME_VERSION, true );
-    wp_enqueue_script( 'font-awesome', 'https://use.fontawesome.com/68ecb7a707.js', array('jquery'), THEME_VERSION, true );
+    wp_enqueue_script( 'fontawesome', 'https://use.fontawesome.com/68ecb7a707.js', array('jquery'), THEME_VERSION, true );
     wp_enqueue_script( 'slick', get_template_directory_uri() . '/vendor/slick/slick.min.js', array('jquery'), THEME_VERSION, true );
+    wp_enqueue_script( 'ajaxstatus', get_template_directory_uri() . '/vendor/virtuemasters/ajaxstatus/ajaxstatus.js', array('jquery','fontawesome'), THEME_VERSION, true );
+    wp_enqueue_script( 'ajaxform', get_template_directory_uri() . '/vendor/virtuemasters/ajaxform/ajaxform.js', array('ajaxstatus'), THEME_VERSION, true );
+    
+    # AJAX OBJECT
+    $ajaxobject = array(
+        'themeurl' => get_template_directory_uri(),
+        'ajaxurl' => admin_url('admin-ajax.php'),
+        'sitename' => get_bloginfo('name')
+    );
+    //wp_localize_script( 'custom', 'ajaxobject', $ajaxobject);
+    //wp_localize_script( 'popup', 'ajaxobject', $ajaxobject);
+    wp_localize_script( 'ajaxstatus', 'ajaxobject', $ajaxobject);
+    wp_localize_script( 'ajaxform', 'ajaxobject', $ajaxobject);
     
 }add_action( 'wp_enqueue_scripts', 'load_scripts' );
 

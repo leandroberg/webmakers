@@ -115,7 +115,7 @@
                     <div class="row justify-content-center min-height-80vh">
                         <div class="col-md-6 align-self-center">
                             <h2>Contact</h2>
-                            <form name="contact" class="ajaxform">
+                            <form name="contact" class="ajaxform validate">
                                 <input type="hidden" name="from" value="contato@virtuemasters.com.br" />
                                 <input type="hidden" name="to" value="leandrobschulz@gmail.com" />
                                 <input type="hidden" name="subject" value="Nova Mensagem WebMakers" />
