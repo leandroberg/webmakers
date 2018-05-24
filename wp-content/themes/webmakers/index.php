@@ -80,7 +80,7 @@
                                     <?php $terms = get_terms(array('taxonomy'=>'clients_category'));
                                     $n=0;
                                     foreach($terms as $term): ?>
-                                    <li><a href="javascript:void(0)" data-slick="<?php echo $n ?>" <?php if($n==0) echo 'class="active"' ?> ><?php echo $term->name ?></a></li>
+                                    <li><a href="javascript:void(0)" data-slick="<?php echo esc_attr($n) ?>" <?php if($n===0){ echo esc_attr('class="active"'); } ?> ><?php echo esc_attr($term->name) ?></a></li>
                                     <?php $n++; endforeach; ?>
                                 </ul>
                             </nav>

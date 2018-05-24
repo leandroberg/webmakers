@@ -31,10 +31,9 @@ function metatags(){
 
 # META TITLE
 function metatitle(){
+    $title = get_bloginfo('name');
     if(is_single()||is_page()){
         $title =  get_the_title();
-    }else{
-        $title = get_bloginfo('name');
     }
     return $title;
 }
@@ -170,77 +169,4 @@ function twitter_text($text){
     $twitter = str_replace('#','%23',$twitter);
     $twitter = str_replace('@','%40',$twitter);
     return $twitter;
-}
-
-# EXCERPT WITH MAX LENGTH
-function the_excerpt_max_charlength($curlarlength) {
-    $excerpt = get_the_excerpt();
-    $curlarlength++;
-    if ( mb_strlen( $excerpt ) > $curlarlength ) {
-        $subex = mb_substr( $excerpt, 0, $curlarlength - 5 );
-        $exwords = explode( ' ', $subex );
-        $excut = - ( mb_strlen( $exwords[ count( $exwords ) - 1 ] ) );
-        if ( $excut < 0 ) {
-            $html = esc_html(mb_substr( $subex, 0, $excut ));
-        } else {
-            $html = esc_html($subex);
-        }
-        $html = esc_html('...');
-    } else {
-        $html = esc_html($excerpt);
-    }
-    return $html;
-}
-
-/*************************************************************************
-*  GET YOUTUBE EMBED BY URL
-*************************************************************************/
-function the_youtube_embed($url,$width,$height) {
-  $url = parse_url($url, PHP_URL_QUERY);
-  parse_str($url, $params);
-  $html = '<iframe width="'.$width.'" height="'.$height.'" src="http://www.youtube.com/embed/'.$params['v'].'" frameborder="0" allowfullscreen></iframe>';
-  return $html;
-}
-
-/*************************************************************************
-*  GET VIMEO EMBED BY URL
-*************************************************************************/
-function the_vimeo_embed($url,$width,$height) {
-  $url = str_replace('https://','https://player.',$url);
-  $url = str_replace('.com/','.com/video/',$url);
-  $html = '<iframe src="'.$url.'?title=0&byline=0&portrait=0" width="'.$width.'" height="'.$height.'" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>';
-  return $html;
-}
-
-/*************************************************************************
-*  GET VIDEO EMBED BY URL
-*************************************************************************/
-function the_video_embed($url,$width,$height) {
-    $html = '<video width="'.$width.'" height="'.$height.'" controls>';
-    $html .= '<source src="'.$url.'" type="video/mp4">';
-    $html .= '</video>';
-    return $html;
-}
-
-// VIDEO PLAYER
-function video_player($url,$width,$height){
-    if(strstr($url,'youtube.com')):
-        $player = the_youtube_embed($url,$width,$height); //YOUTUBE
-    elseif(strstr($url,'vimeo.com')):
-        $player = the_vimeo_embed($url,$width,$height); //VIMEO
-    else:
-        $player = the_video_embed($url,$width,$height); //OTHER
-    endif;
-    return $player;
-}
-
-/* CATEGORY NAME */
-function category_name($post,$taxonomy,$term_id=false){
-    $terms = get_the_terms($post,$taxonomy);
-    if($term_id){
-        $html = esc_attr('cat-item-'.$terms[0]->term_id);
-    }else{
-        $html = esc_attr($terms[0]->name);
-    }
-    return $html;
 }
