@@ -41,10 +41,9 @@ function metatitle(){
 #META DESCRIPTION
 function metadescription(){
     global $post;
+    $description = get_bloginfo('description');
     if(is_single()||is_page()){
         $description = $post->post_excerpt;
-    }else{
-        $description = get_bloginfo('description');
     }
     return $description;
 }
@@ -52,31 +51,28 @@ function metadescription(){
 # THUMBNAIL
 function metathumb(){
     global $post;
+    $thumbnail = get_template_directory_uri().'/screenshot.png';
     if(is_single()){
         $thumbnail = wp_get_attachment_image_src( get_post_thumbnail_id($post->ID), 'large' );
         $thumbnail = $thumbnail[0];
-    }else{
-        $thumbnail = get_template_directory_uri().'/screenshot.png';
     }
     return $thumbnail;
 }
 
 # META URL
 function metaurl(){
+    $url = get_bloginfo('home');
     if(is_single()||is_page()){
         $url = get_the_permalink();
-    }else{
-        $url = get_bloginfo('home');
     }
     return $url;
 }
 
 # META TYPE
 function metatype(){
+    $type = 'website';
     if(is_single()||is_page()){
         $type = 'article';
-    }else{
-        $type = 'website';
     }
     return $type;
 }
